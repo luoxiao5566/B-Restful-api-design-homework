@@ -1,5 +1,6 @@
 package com.thoughtworks.capability.gtb.restfulapidesign.service;
 
+import com.thoughtworks.capability.gtb.restfulapidesign.domain.Student;
 import com.thoughtworks.capability.gtb.restfulapidesign.persistence.po.StudentPO;
 import com.thoughtworks.capability.gtb.restfulapidesign.repository.StudentRepository;
 import org.springframework.stereotype.Service;
@@ -18,4 +19,18 @@ public class StudentService {
     public List<StudentPO> getStudents() {
         return studentRepository.findAll();
     }
+
+    public List<StudentPO> getStudentsByGender(String gender) {
+        return studentRepository.findByGender(gender);
+    }
+
+    public void createStudent(Student student) {
+        studentRepository.save(student);
+    }
+
+    public StudentPO getStudentById(Integer id) {
+        StudentPO studentPO = studentRepository.findById(id);
+        return studentPO;
+    }
+
 }

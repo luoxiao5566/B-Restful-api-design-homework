@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class StudentRepositoryImpl implements StudentRepository {
@@ -35,6 +36,20 @@ public class StudentRepositoryImpl implements StudentRepository {
     }
 
     @Override
+    public List<StudentPO> findByGender(String gender) {
+        List<StudentPO> result = studentPOS.stream().filter((s) -> s.getGender().equals(gender))
+                .collect(Collectors.toList());
+        return result;
+    }
+
+    @Override
+    public StudentPO findById(Integer id) {
+        StudentPO studentPO = studentPOS.stream().filter((s) -> s.getId().equals(id))
+                .findFirst().orElseThrow(() -> new RuntimeException("not find"));
+        return studentPO;
+    }
+
+    @Override
     public void save(Student student) {
         int index = studentPOS.size()+1;
         StudentPO studentPO = StudentPO.builder().id(index)
@@ -43,4 +58,6 @@ public class StudentRepositoryImpl implements StudentRepository {
                 .note(student.getNote()).build();
         studentPOS.add(studentPO);
     }
+
+
 }

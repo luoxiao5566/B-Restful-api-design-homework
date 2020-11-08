@@ -11,5 +11,9 @@ public interface StudentRepository {
 
     List<StudentPO> findAll();
 
+    List<StudentPO> findByGender(String gender);
+
+    StudentPO findById(Integer id);
+
     void save(Student student);
 }
