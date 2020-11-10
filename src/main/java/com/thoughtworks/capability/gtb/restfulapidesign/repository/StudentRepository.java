@@ -16,4 +16,8 @@ public interface StudentRepository {
     StudentPO findById(Integer id);
 
     void save(Student student);
+
+    void remove(Integer id);
+
+    void update(Integer id, Student info);
 }

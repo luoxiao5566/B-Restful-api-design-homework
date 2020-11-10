@@ -33,4 +33,11 @@ public class StudentService {
         return studentPO;
     }
 
+    public void removeStudent(Integer id) {
+        studentRepository.remove(id);
+    }
+
+    public void updateStudent(Integer id, Student info) {
+        studentRepository.update(id,info);
+    }
 }
