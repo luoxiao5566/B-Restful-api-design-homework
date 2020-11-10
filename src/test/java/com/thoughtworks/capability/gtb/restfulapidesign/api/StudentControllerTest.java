@@ -27,7 +27,7 @@ public class StudentControllerTest {
 
     @Test
     public void should_get_all_students() throws Exception {
-        mockMvc.perform(get("/students"))
+        mockMvc.perform(get("/v1/students"))
                 .andExpect(jsonPath("$", hasSize(15)))
                 .andExpect(jsonPath("$[0].name", is("成吉思汗")))
                 .andExpect(jsonPath("$[0].id", is(1)))
@@ -46,10 +46,10 @@ public class StudentControllerTest {
         Student student = Student.builder().name("孙悟空").gender("male").note("猴哥无敌").build();
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonString = objectMapper.writeValueAsString(student);
-        mockMvc.perform(post("/students").content(jsonString)
+        mockMvc.perform(post("/v1/students").content(jsonString)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated());
-        mockMvc.perform(get("/students"))
+        mockMvc.perform(get("/v1/students"))
                 .andExpect(jsonPath("$", hasSize(16)))
                 .andExpect(jsonPath("$[15].name", is("孙悟空")))
                 .andExpect(jsonPath("$[15].id", is(16)))
@@ -60,7 +60,7 @@ public class StudentControllerTest {
 
     @Test
     public void should_get_students_by_id() throws Exception {
-        mockMvc.perform(get("/students/4"))
+        mockMvc.perform(get("/v1/students/4"))
                 .andExpect(jsonPath("$.name", is("钟无艳")))
                 .andExpect(jsonPath("$.id", is(4)))
                 .andExpect(jsonPath("$.gender", is("female")))
@@ -69,7 +69,7 @@ public class StudentControllerTest {
 
     @Test
     public void should_get_students_by_female() throws Exception {
-        mockMvc.perform(get("/students?gender=female"))
+        mockMvc.perform(get("/v1/students?gender=female"))
                 .andExpect(jsonPath("$", hasSize(7)))
                 .andExpect(jsonPath("$[0].name", is("鲁班七号")))
                 .andExpect(jsonPath("$[0].id", is(2)))
@@ -82,7 +82,7 @@ public class StudentControllerTest {
 
     @Test
     public void should_get_students_by_male() throws Exception {
-        mockMvc.perform(get("/students?gender=male"))
+        mockMvc.perform(get("/v1/students?gender=male"))
                 .andExpect(jsonPath("$", hasSize(8)))
                 .andExpect(jsonPath("$[1].name", is("太乙真人")))
                 .andExpect(jsonPath("$[1].id", is(3)))
@@ -95,9 +95,9 @@ public class StudentControllerTest {
 
     @Test
     public void should_remove_student_by_id() throws Exception {
-        mockMvc.perform(delete("/students/4")).andExpect(status().isOk());
+        mockMvc.perform(delete("/v1/students/4")).andExpect(status().isOk());
 
-        mockMvc.perform(get("/students"))
+        mockMvc.perform(get("/v1/students"))
                 .andExpect(jsonPath("$", hasSize(14)))
                 .andExpect(status().isOk());
     }
@@ -107,11 +107,11 @@ public class StudentControllerTest {
         Student student = Student.builder().name("大漂亮").note("漂亮无敌").build();
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonString = objectMapper.writeValueAsString(student);
-        mockMvc.perform(patch("/students/4").content(jsonString)
+        mockMvc.perform(patch("/v1/students/4").content(jsonString)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
-        mockMvc.perform(get("/students/4"))
+        mockMvc.perform(get("/v1/students/4"))
                 .andExpect(jsonPath("$.name", is("大漂亮")))
                 .andExpect(jsonPath("$.gender", is("female")))
                 .andExpect(jsonPath("$.note",is("漂亮无敌")))
